@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "apis": [
+    {
+      "identifier": "sportradar-cricket",
+      "source": "@sportradar-cricket/v2#djytolribtluf",
+      "integrity": "sha512-lvydP9ZNPcxbr867/KjCEiAaYNIPJK98jcLdhpIIzct1O8eAUzKycUA47satYAHZhrnl2JtcCO6eMOrbUcluTw==",
+      "installerVersion": "6.1.2"
+    }
+  ]
+}

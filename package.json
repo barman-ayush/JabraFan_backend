@@ -1,0 +1,17 @@
+{
+  "name": "jabra_fan_backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@api/sportradar-cricket": "file:.api/apis/sportradar-cricket",
+    "@google/generative-ai": "^0.21.0",
+    "express": "^4.21.2"
+  }
+}
