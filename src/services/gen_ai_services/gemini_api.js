@@ -1,10 +1,10 @@
 const {GoogleGenerativeAI} = require('@google/generative-ai')
-
+require('dotenv').config();
 class GeminiApi{
     model
 
     constructor(){
-        const genAI = new GoogleGenerativeAI("AIzaSyC0pobVS-Jdx6cX1HfETGFgPi_qT8zmykw");
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         this.model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     }
 

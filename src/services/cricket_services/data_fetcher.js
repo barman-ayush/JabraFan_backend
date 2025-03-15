@@ -3,7 +3,8 @@ const sportradarCricket = require('@api/sportradar-cricket');
 class DataFetcher{
 
     constructor(){
-        sportradarCricket.auth('PTfdyAvzT2hZ0F8GAM2vGVPWPaHZEUqWy4kpBYz3')
+        // sportradarCricket.auth('PTfdyAvzT2hZ0F8GAM2vGVPWPaHZEUqWy4kpBYz3')
+        sportradarCricket.auth('5mUbj0P9bj1FjPxha41fki1faODMWyYPg58tETUj')
     }
 
     async getDailyLiveSchedule(){

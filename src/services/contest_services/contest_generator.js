@@ -22,11 +22,12 @@ class LiveMatchQuestionGenerator{
     async generateQuestions(matchId, noOfQuestions){
         const dataFetcher =  new DataFetcher()
         let response = await dataFetcher.getMatchInfo(matchId)
-        let parsedResponse = this.getParsedMatchInfo(response.data)
+        // let parsedResponse = this.getParsedMatchInfo(response.data)
+        let parsedResponse = response.data;
         const geminiApi = new GeminiApi()
         let finalResponse = await geminiApi.getAiGeneratedQuestions(parsedResponse, noOfQuestions)
+        console.log("Final Response : " , finalResponse);
         return finalResponse
-
     }
     
 }

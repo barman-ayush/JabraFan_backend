@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const ServerConfig = require('../../configs/server_config.json')
 const DataFetcher = require('../services/cricket_services/data_fetcher')
 const LiveMatchQuestionGenerator = require('../services/contest_services/contest_generator')
@@ -10,11 +11,19 @@ async function server() {
   
     let link = `http://${host}:${port}`
 
+    // Enable CORS for all origins
+    app.use(cors({
+        origin: 'https://jabra-k9oer3935-ayush-barmans-projects.vercel.app/',
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization']
+    }))
+
     app.get('/', (req, res) => res.send('Hello World!'))
     app.get('/health', (req, res) => res.send('Server is healthy!'))
 
     app.get('/daily-live-schedule',(req,res)=>{
         const dataFetcher = new DataFetcher()
+        console.log("Hit Here !!")
         dataFetcher.getDailyLiveSchedule()
         .then((response)=>{
             res.send(response)
@@ -41,12 +50,13 @@ async function server() {
         try {
             const liveMatchQuestionGenerator = new LiveMatchQuestionGenerator()
             let questions = await liveMatchQuestionGenerator.generateQuestions(req.query.match_id, req.query.no_of_questions)
-            res.send(questions)
+            // questions  => [ Array Of Strings(Each string has a question ) ]
+            res.send(questions);
         } catch (error) {
-            console.log(error)
-            res.statusCode = 500
-            res.send(error)
-
+            // console.log(error)
+            console.log("Error Caught")
+            res.statusCode = 500;
+            res.send(error);
         }
     })
 
