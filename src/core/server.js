@@ -13,7 +13,7 @@ async function server() {
 
     // Enable CORS for all origins
     app.use(cors({
-        origin: 'https://jabra-k9oer3935-ayush-barmans-projects.vercel.app/',
+        origin: 'https://jabra-fan-git-master-ayush-barmans-projects.vercel.app/',
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization']
     }))

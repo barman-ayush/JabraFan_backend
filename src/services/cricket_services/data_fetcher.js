@@ -1,10 +1,10 @@
 const sportradarCricket = require('@api/sportradar-cricket');
+require("dotenv").config();
 
 class DataFetcher{
 
     constructor(){
-        // sportradarCricket.auth('PTfdyAvzT2hZ0F8GAM2vGVPWPaHZEUqWy4kpBYz3')
-        sportradarCricket.auth('5mUbj0P9bj1FjPxha41fki1faODMWyYPg58tETUj')
+        sportradarCricket.auth(process.env.SPORTS_API_KEY);
     }
 
     async getDailyLiveSchedule(){
