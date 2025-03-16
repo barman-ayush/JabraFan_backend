@@ -13,12 +13,14 @@ async function server() {
 
     // Enable CORS for all origins
     app.use(cors({
-        origin: 'https://jabra-fan-git-master-ayush-barmans-projects.vercel.app/',
+        origin: 'https://jabra-fan.vercel.app/',
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization']
     }))
 
-    app.get('/', (req, res) => res.send('Hello World!'))
+    app.get('/', (req , res) => {
+        return res.send("Jabra Fan AI Service")
+    })
     app.get('/health', (req, res) => res.send('Server is healthy!'))
 
     app.get('/daily-live-schedule',(req,res)=>{
