@@ -66,6 +66,7 @@ class DataFetcher {
   async getLiveScore(matchId) {
     try {
       const matchInfo = await this.getMatchInfo(matchId);
+      console.log(matchInfo)
       const teamObj = new MatchData(matchInfo.data.sport_event.competitors);
       await teamObj.evaluate(matchInfo.data.sport_event_status);
       const { team1, team2 } = teamObj;

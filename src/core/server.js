@@ -14,8 +14,12 @@ async function server() {
   // Enable CORS for all origins
   app.use(
     cors({
-    //   origin: "https://jabra-fan.vercel.app/",
-      origin: ["http://localhost:3001" , "http://localhost:3001/"],
+      origin: [
+        "http://localhost:3000",
+        "http://localhost:3000/",
+        "https://www.jabrafans.com/",
+        "https://www.jabrafans.com",
+      ],
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       allowedHeaders: ["Content-Type", "Authorization"],
     })
@@ -27,7 +31,7 @@ async function server() {
   app.get("/health", (req, res) => res.send("Server is healthy!"));
 
   app.get("/get-display-score/:matchId", (req, res) => {
-    console.log("Hit Here")
+    console.log("Hit Here");
     const dataFetcher = new DataFetcher();
     dataFetcher
       .getDisplayScore(req.params.matchId)
@@ -70,7 +74,7 @@ async function server() {
   });
 
   app.get("/match-info/:matchId", (req, res) => {
-    console.log(req.params.matchId)
+    console.log(req.params.matchId);
     const dataFetcher = new DataFetcher();
     dataFetcher
       .getMatchInfo(req.params.matchId)
@@ -85,7 +89,6 @@ async function server() {
 
   app.get("/generate-contest", async (req, res) => {
     try {
-
       const liveMatchQuestionGenerator = new LiveMatchQuestionGenerator();
       let questions = await liveMatchQuestionGenerator.generateQuestions(
         req.query.match_id,
