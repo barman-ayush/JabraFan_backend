@@ -1,4 +1,5 @@
-const {GoogleGenerativeAI} = require('@google/generative-ai')
+const {GoogleGenerativeAI} = require('@google/generative-ai');
+const { sampleMatchHeadline } = require('../../../utils/defaults');
 require('dotenv').config();
 class GeminiApi{
     model
@@ -21,6 +22,25 @@ class GeminiApi{
         let formattedResponse = this.generateFomattedResponse(responseText)
         return formattedResponse
     }
+    
+    async getAiGeneratedHeadlines(parsedJson){
+        const sampleMatchHeadlineJsonString = JSON.stringify(sampleMatchHeadline);
+        let prompt = `Below the status of a live match.\n\n ${JSON.stringify(parsedJson)} \n\n 
+        Now using the abova data generate the headline for this match so far 
+        in the follwoing format 
+        ${sampleMatchHeadlineJsonString}
+        Return a JSON string only.
+        `
+        const result = await this.model.generateContent(prompt)
+        var responseText = result.response.text()
+        return responseText
+        // let formattedResponse = this.generateFomattedResponse(responseText)
+        // return formattedResponse
+        
+    }
 }
 
-module.exports = GeminiApi
+const GeminiApiInstance = new GeminiApi();
+Object.freeze(GeminiApiInstance);
+
+module.exports = GeminiApiInstance

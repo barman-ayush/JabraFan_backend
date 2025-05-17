@@ -1,35 +1,41 @@
-const DataFetcher = require("../cricket_services/data_fetcher")
-const GeminiApi =  require("../gen_ai_services/gemini_api")
+const DataFetcher = require("../cricket_services/data_fetcher");
 
-class LiveMatchQuestionGenerator{
+class LiveMatchQuestionGenerator {
+  getParsedMatchInfo(input) {
+    const parsedMatchInfo = {
+      competitors: input.sport_event.competitors,
+      match_status: input.sport_event_status.match_status,
+      display_score: input.sport_event_status.display_score,
+      current_inning: input.sport_event_status.current_inning,
+      display_overs: input.sport_event_status.display_overs,
+      required_run_rate: input.sport_event_status.required_run_rate,
+      run_rate: input.sport_event_status.run_rate,
+      period_scores: input.sport_event_status.period_scores,
+      statistics:
+        input.statistics.innings.length === 2
+          ? input.statistics.innings[1]
+          : input.statistics.innings[0],
+    };
+    return parsedMatchInfo;
+  }
 
-    getParsedMatchInfo(input){
-        let parsedMatchInfo={};
-        parsedMatchInfo.competitors = input.sport_event.competitors
-        parsedMatchInfo.match_status = input.sport_event_status.match_status
-        parsedMatchInfo.display_score = input.sport_event_status.display_score
-        parsedMatchInfo.current_inning = input.sport_event_status.current_inning
-        parsedMatchInfo.display_overs = input.sport_event_status.display_overs
-        parsedMatchInfo.required_run_rate = input.sport_event_status.required_run_rate
-        parsedMatchInfo.run_rate = input.sport_event_status.run_rate
-        parsedMatchInfo.period_scores = input.sport_event_status.period_scores
-
-        if(input.statistics.innings.length==2) parsedMatchInfo.statistics=input.statistics.innings[1]
-        else parsedMatchInfo.statistics = input.statistics.innings[0]
-        return parsedMatchInfo
+  async generateQuestions(matchId, noOfQuestions) {
+    try {
+      const response = await DataFetcher.getMatchInfo(matchId);
+      const parsedResponse = response.data; // or this.getParsedMatchInfo(response.data)
+      // const finalResponse = await gemini.getAiGeneratedQuestions(parsedResponse, noOfQuestions);
+      const finalResponse = await GeminiApiInstance
+      console.log("Final Response:", finalResponse);
+      return finalResponse;
+    } catch (error) {
+      console.error("Error generating questions:", error);
+      return error;
     }
-
-    async generateQuestions(matchId, noOfQuestions){
-        const dataFetcher =  new DataFetcher()
-        let response = await dataFetcher.getMatchInfo(matchId)
-        // let parsedResponse = this.getParsedMatchInfo(response.data)
-        let parsedResponse = response.data;
-        const geminiApi = new GeminiApi()
-        let finalResponse = await geminiApi.getAiGeneratedQuestions(parsedResponse, noOfQuestions)
-        console.log("Final Response : " , finalResponse);
-        return finalResponse
-    }
-    
+  }
 }
 
-module.exports = LiveMatchQuestionGenerator
+// Create singleton instance
+const liveMatchQuestionGeneratorInstance = new LiveMatchQuestionGenerator();
+Object.freeze(liveMatchQuestionGeneratorInstance); // optional
+
+module.exports = liveMatchQuestionGeneratorInstance;

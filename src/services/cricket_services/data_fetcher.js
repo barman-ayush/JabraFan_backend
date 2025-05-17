@@ -9,7 +9,7 @@ class DataFetcher {
 
   async getDailyLiveSchedule() {
     try {
-      var response = await sportradarCricket.cricketDailyLiveSchedule({
+      const response = await sportradarCricket.cricketDailyLiveSchedule({
         language_code: "en",
         format: "json",
       });
@@ -23,14 +23,13 @@ class DataFetcher {
 
   async getDailyUpcomingMatches() {
     try {
-      var currentTimeStamp = new Date();
-      var currentTimeString = currentTimeStamp.toISOString().substring(0, 10);
-      var apiResponse = await sportradarCricket.cricketDailySchedule({
+      const currentTimeString = new Date().toISOString().substring(0, 10);
+      const apiResponse = await sportradarCricket.cricketDailySchedule({
         language_code: "en",
         date: currentTimeString,
         format: "json",
       });
-      let response = {};
+      let response = {}; // you may want to process or return something here
     } catch (error) {
       console.error(error);
       return error;
@@ -39,7 +38,7 @@ class DataFetcher {
 
   async getMatchInfo(matchId) {
     try {
-      var response = await sportradarCricket.cricketMatchTimeline({
+      const response = await sportradarCricket.cricketMatchTimeline({
         language_code: "en",
         match_id: matchId,
         format: "json",
@@ -54,8 +53,7 @@ class DataFetcher {
   async getDisplayScore(matchId) {
     try {
       const matchInfo = await this.getMatchInfo(matchId);
-      console.log(matchInfo)
-
+      console.log(matchInfo);
       return matchInfo;
     } catch (error) {
       console.log(error);
@@ -66,7 +64,7 @@ class DataFetcher {
   async getLiveScore(matchId) {
     try {
       const matchInfo = await this.getMatchInfo(matchId);
-      console.log(matchInfo)
+      console.log(matchInfo);
       const teamObj = new MatchData(matchInfo.data.sport_event.competitors);
       await teamObj.evaluate(matchInfo.data.sport_event_status);
       const { team1, team2 } = teamObj;
@@ -78,4 +76,8 @@ class DataFetcher {
   }
 }
 
-module.exports = DataFetcher;
+// Create singleton instance
+const dataFetcherInstance = new DataFetcher();
+Object.freeze(dataFetcherInstance); // Optional: makes it immutable
+
+module.exports = dataFetcherInstance;
