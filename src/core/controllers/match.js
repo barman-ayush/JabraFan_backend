@@ -61,10 +61,7 @@ module.exports = {
   getHeadlinesForMatch: async (req, res) => {
     try {
       const headlines = await DugoutInstance.getHeadlines(req.params.matchId);
-      console.log(req.params.matchId);
-      const headlinesJSON = headlines.replace(/```json/g , "").replace(/```/g , "").trim()
-      const headlinesObj = JSON.parse(headlinesJSON);
-      res.send({headlines : headlinesObj});
+      res.send({headlines : headlines});
     } catch (error) {
       // console.log(error)
       console.log("Error Caught");
